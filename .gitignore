@@ -55,3 +55,4 @@ fabric.properties
 
 # JavaDoc folder
 JavaDoc/
+target/
