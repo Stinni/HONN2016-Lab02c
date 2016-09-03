@@ -1,13 +1,14 @@
 /**
  * Forritið JsonExample (JsonExample.java)
- * skrifar út Json streng
+ * skrifar Json streng út í skrá og les skránna aftur
  *
  * @author Kristinn Heiðar Freysteinsson
  * @version 1, 03.09.16
  */
 import org.json.simple.*;
-import java.io.FileWriter;
-import java.io.IOException;
+import org.json.simple.parser.*;
+import java.io.*;
+import java.util.Iterator;
 
 public class JsonExample {
     public static JSONObject writeJson()
@@ -41,7 +42,49 @@ public class JsonExample {
         return obj;
     }
 
+    public static void readJson()
+    {
+        JSONParser parser = new JSONParser();
+
+        try
+        {
+            Object obj = parser.parse(new FileReader("test.json"));
+
+            JSONObject jsonObject = (JSONObject) obj;
+
+            String name = (String) jsonObject.get("title");
+            System.out.println(name);
+
+            long accommodates = (Long) jsonObject.get("accommodates");
+            System.out.println("Accommodates: " + accommodates);
+
+            long bedrooms = (Long) jsonObject.get("bedrooms");
+            System.out.println("Bedrooms: " + bedrooms);
+
+            // loop array
+            JSONArray msg = (JSONArray) jsonObject.get("amenities");
+            System.out.println("Amenities:");
+            Iterator<String> iterator = msg.iterator();
+            while (iterator.hasNext())
+            {
+                System.out.println(iterator.next());
+            }
+        }
+        catch (FileNotFoundException e)
+        {
+            e.printStackTrace();
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        catch (ParseException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
     public static void main(String[] args) {
-        writeJson();
+        readJson();
     }
 }
